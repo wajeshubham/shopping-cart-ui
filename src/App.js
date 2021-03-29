@@ -38,9 +38,11 @@ const App = () => {
   const handleRemoval = (id) => {
     setProducts([
       ...products.filter((prod) => {
-        setTotal(
-          total - prod.quantity * parseInt(prod.price.replace(/,/g, ""))
-        );
+        if (prod.id === id) {
+          setTotal(
+            total - prod.quantity * parseInt(prod.price.replace(/,/g, ""))
+          );
+        }
         return prod.id !== id;
       }),
     ]);
