@@ -3,7 +3,12 @@ import { Col, Row, Card } from "react-bootstrap";
 import { DashCircleFill, PlusCircleFill } from "react-bootstrap-icons";
 import styles from "../scss/cart_item.module.scss";
 
-const CartItem = ({ setProducts, products, product, total, setTotal }) => {
+const CartItem = ({
+  handleRemoval,
+  product,
+  handleIncrement,
+  handleDecrement,
+}) => {
   return (
     <React.Fragment key={product.id}>
       <Row>
@@ -23,16 +28,7 @@ const CartItem = ({ setProducts, products, product, total, setTotal }) => {
             <span
               className={styles.remove_span}
               onClick={() => {
-                setProducts([
-                  ...products.filter((prod) => {
-                    setTotal(
-                      total -
-                        product.quantity *
-                          parseInt(product.price.replace(/,/g, ""))
-                    );
-                    return prod.id !== product.id;
-                  }),
-                ]);
+                handleRemoval(product.id);
               }}
             >
               REMOVE
@@ -48,17 +44,7 @@ const CartItem = ({ setProducts, products, product, total, setTotal }) => {
                 cursor="pointer"
                 onClick={(e) => {
                   e.preventDefault();
-                  setProducts([
-                    ...products.map((prod) => {
-                      if (prod.id === product.id) {
-                        prod.quantity += 1;
-                        setTotal(
-                          total + parseInt(prod.price.replace(/,/g, ""))
-                        );
-                      }
-                      return prod;
-                    }),
-                  ]);
+                  handleIncrement(product.id);
                 }}
               />
               <span className="mx-2">{product.quantity}</span>
@@ -68,17 +54,7 @@ const CartItem = ({ setProducts, products, product, total, setTotal }) => {
                 cursor="pointer"
                 onClick={(e) => {
                   e.preventDefault();
-                  setProducts([
-                    ...products.map((prod) => {
-                      if (prod.id === product.id && prod.quantity > 1) {
-                        prod.quantity -= 1;
-                        setTotal(
-                          total - parseInt(prod.price.replace(/,/g, ""))
-                        );
-                      }
-                      return prod;
-                    }),
-                  ]);
+                  handleDecrement(product.id);
                 }}
               />
             </span>

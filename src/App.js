@@ -35,6 +35,41 @@ const App = () => {
     }
   };
 
+  const handleRemoval = (id) => {
+    setProducts([
+      ...products.filter((prod) => {
+        setTotal(
+          total - prod.quantity * parseInt(prod.price.replace(/,/g, ""))
+        );
+        return prod.id !== id;
+      }),
+    ]);
+  };
+
+  const handleIncrement = (id) => {
+    setProducts([
+      ...products.map((prod) => {
+        if (prod.id === id) {
+          prod.quantity += 1;
+          setTotal(total + parseInt(prod.price.replace(/,/g, "")));
+        }
+        return prod;
+      }),
+    ]);
+  };
+
+  const handleDecrement = (id) => {
+    setProducts([
+      ...products.map((prod) => {
+        if (prod.id === id && prod.quantity > 1) {
+          prod.quantity -= 1;
+          setTotal(total - parseInt(prod.price.replace(/,/g, "")));
+        }
+        return prod;
+      }),
+    ]);
+  };
+
   useEffect(() => fetchProducts(), []);
 
   return (
@@ -57,10 +92,9 @@ const App = () => {
                       <CartItem
                         key={product.id}
                         product={product}
-                        products={products}
-                        setProducts={setProducts}
-                        total={total}
-                        setTotal={setTotal}
+                        handleRemoval={handleRemoval}
+                        handleDecrement={handleDecrement}
+                        handleIncrement={handleIncrement}
                       />
                     ))}
                   </Card>
