@@ -25,6 +25,7 @@ const App = () => {
       res.data.photos.map((prod) => {
         tempTotal =
           parseInt(tempTotal) + parseInt(prod.price.replace(/,/g, ""));
+        return 0;
       });
       setTotal(tempTotal);
       setIsLoading(false);
